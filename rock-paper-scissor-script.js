@@ -1,80 +1,83 @@
-function playRound() {
-    /* Prompts the player to enter a choice and returns a value between 1 and 3 */
-    function getPlayerChoice () {
-        let userInput = prompt("Rock, Paper, Scissor?");
-        let lowcaseUserInput = userInput.toLowerCase();
+function replayButton(parentNode, removeChild) { //Creates a button that when clicked removes itself and an extra child
+    const parent = parentNode;
+    const remove = removeChild;
+    const button = document.createElement("button");
+        button.textContent = "Replay?"; 
+    
+    parent.appendChild(button);
 
-        if (lowcaseUserInput === "rock" || lowcaseUserInput === "paper" || lowcaseUserInput === "scissor"){
-            return lowcaseUserInput;
-        } else {
-            let wrongOption = confirm("Wrong Option - Reenter?");
-            if (wrongOption) {
-                getPlayerChoice();
-            } else {
-                alert("Bye!");
-            }
-        };
-    };
+    button.addEventListener("click", () => {
+        parent.removeChild(button);
+        parent.removeChild(remove);
+    });
+};
 
-    /* Funktion get a random number from computer */
-    function getComputerChoice() {
-        let randomNumber = Math.floor(Math.random() * 3) + 1;
-        switch (randomNumber) {
-            case 1:
-                return "rock";   
-            break;
+function generateOutcomeElement(outcomeText, parent) { // Generates an outcome text which is used in the playRound() logic
+    const outcome = document.createElement("p");
+        outcome.textContent = outcomeText;    
+    parent.appendChild(outcome);
 
-            case 2:
-                return "paper";
-            break;
+    replayButton(parent, outcome); 
+};  
 
-            case 3:
-                return "scissor";
-            break;
-
-            default:
-                let wrongOption = confirm("Wrong choice entered: Reenter choice!");
-                if (wrongOption) {
-                    getPlayerChoice();
-                } else {
-                    alert("Bye!");
-                };
-        };
-    };
-
-    let playerSelection = getPlayerChoice();
-    let computerSelection = getComputerChoice();
-
-    switch (true) {
-        /* Sets the cases where the choices are the same */
-        case playerSelection == computerSelection:
-            let tieOption = confirm("It's a tie! - Replay?" );
-            if (tieOption) {
-                playRound();
-            } else {
-                alert("Bye!");
-            }
-        break;
-        
-        /* Set case where you win */
-        case playerSelection == "rock" && computerSelection == "scissor":
-        case playerSelection == "paper" && computerSelection == "rock":
-        case playerSelection == "scissor" && computerSelection == "paper": 
-            let winOption = confirm("You win! " + playerSelection.charAt(0).toLocaleUpperCase() + playerSelection.slice(1) + " beats " + computerSelection + " ! - Replay?");
-            if (winOption) {
-                playRound();
-            } else {
-                alert("Bye!");
-            }
+function getComputerChoice() { // Generates a random choice from the computer and shows it on the screen
+    let randomNumber = Math.floor(Math.random() * 3) + 1;
+    switch (randomNumber) {
+        case 1:
+            return "rock";   
         break;
 
-        /* Set the default to a replay option */
+        case 2:
+            return "paper";
+        break;
+
+        case 3:
+            return "scissor";
+        break;
+
         default:
-            let errorOption = confirm("You lose! - Play again?")
-            if (errorOption){
-                playRound();
-            } else {
-                alert("Bye!");
-            };
+            console.log("ERROR getComputerChoice");
     };
 };
+
+function playRound(buttonId) { // Generates the game logic with a switch statement and sets the explained cases
+    let playerSelection = buttonId;
+    let computerSelection = getComputerChoice();
+
+    const parent = document.querySelector(".output");
+
+    // If statements creates the logic behind the game 
+    if (playerSelection == computerSelection) { // Tie
+        generateOutcomeElement("It's a tie", parent);
+    } else if ( // Win
+        playerSelection == "rock" && computerSelection == "scissor" ||
+        playerSelection == "paper" && computerSelection == "rock" ||
+        playerSelection == "scissor" && computerSelection == "paper"
+    ) { // Lose
+        generateOutcomeElement("You win!", parent);
+    } else {
+        generateOutcomeElement("You lose!", parent);
+    };
+};
+
+
+// This part is the initiatir for the game and sets the player Choice
+const choiceButtons = document.querySelectorAll("#choice-buttons > button");
+choiceButtons.forEach(button => {
+    button.addEventListener("click", () => {
+        let buttonId = button.id; 
+
+        playRound(buttonId);
+        changeRoundInterface(buttonId);
+    })
+});
+
+function changeRoundInterface() {
+    const parent = document.querySelector(".game");
+    const buttons = document.querySelector("#choice-buttons");
+    const computer = document.querySelector("#computer");
+
+    parent.removeChild(buttons);
+    parent.removeChild(computer);
+};
+

@@ -1,0 +1,38 @@
+body{
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+
+    margin: 0px;
+    height: 100vh;
+    background-color: grey;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.game{
+    display: flex;
+    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#choice-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 2px;
+
+}
+
+#choice-buttons > button{
+    width: 60px;
+
+}

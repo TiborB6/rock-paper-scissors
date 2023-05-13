@@ -6,15 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;1,100&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="styles.css">
     <script defer src="rock-paper-scissor-script.js"></script>
 </head>
 <body>
-    <button onclick="playRound()">Play</button>
-    <style>
-        body{
-            margin: 0px;
-            background-color: grey;
-        }
-    </style>
+    <div class="game-container">
+        <h1>Enter your choice!</h1>    
+
+        <div class="game">
+            <div id="choice-buttons">
+                <button id="rock">Rock</button>
+                <button id="paper">Paper</button>
+                <button id="scissor">Scissor</button>
+            </div>
+            <p>vs.</p>
+            <p id="computer">Computers choice</p>
+        </div>  
+
+        <div class="output">
+
+        </div>
+    </div>
 </body>
 </html>
